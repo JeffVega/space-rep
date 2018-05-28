@@ -13,6 +13,8 @@ const { dbConnect } = require('./db-mongoose');
 
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
+const questionRouter = require('./routes/questions');
+
 const app = express();
 passport.use(jwtStrategy);
 passport.use(localStrategy);
@@ -24,10 +26,6 @@ app.use(
 );
 
 
-app.get('/api/test', (req, res) => {
-  res.json({msg: 'Hello'})
-})
-
 app.use(express.json());
 
 app.use(
@@ -38,10 +36,11 @@ app.use(
 
 app.use('/api', usersRouter);
 
-app.use('/api',authRouter);
+app.use('/api', authRouter);
+
+app.use('/api', questionRouter);
 
 app.use(passport.authenticate('jwt', { session: false, failWithError: true }));
-
 function runServer(port = PORT) {
   const server = app
     .listen(port, () => {
