@@ -10,7 +10,7 @@ const jwtStrategy = require('./passport/jwt');
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 // const {dbConnect} = require('./db-knex');
-
+console.log(dbConnect)
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 const app = express();
