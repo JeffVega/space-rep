@@ -24,7 +24,9 @@ app.use(
 );
 
 // app.use(express.static('public'));
-
+app.get('/api/test', (req, res) => {
+  res.json({msg: 'Hello'})
+})
 
 app.use(express.json());
 
