@@ -75,7 +75,15 @@ router.post('/users', (req, res, next) => {
   let { username, password, fullname = '' } = req.body;
   fullname = fullname.trim();
 
-  return User.create({ username, password, fullname })
+  return User.hashPassword(password)
+    .then(digest => {
+      const newUser = {
+        fullname,
+        username,
+        password: digest
+      };
+      return User.create(newUser)
+    })
     .then(result => {
       return res.status(201).location(`/api/users/${result.id}`).json(result);
     })
@@ -89,3 +97,4 @@ router.post('/users', (req, res, next) => {
 });
 
 module.exports = router;
+
