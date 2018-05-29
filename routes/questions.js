@@ -3,7 +3,6 @@
 const express = require('express');
 const QuestionMod = require('../models/question');
 const User = require('../models/user')
-// const Question  = require('../db/seed/questions.js')
 const LinkedList = require('../linked-list/linked-list')
 
 const router = express.Router();
@@ -18,6 +17,7 @@ router.get('/quez',(req,res) =>{
     next(err)
   })
 });
+
 router.post('/qes', (req, res) => {
   const {img_url,answer} = req.body;
   // const userId =req.user.id;
