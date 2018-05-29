@@ -1,50 +1,50 @@
 [{
-  "_id":"Arthur",
+  
   "img_url":"https://i.imgur.com/BE2y1Hu.png",
   "answer":"First world problems"
 },
 {
-  "_id":"brian",
+ 
   "img_url":"https://i.imgur.com/WJziGeJ.jpg",
   "answer":"bad luck brian"
 },
 {
-  "_id":"noBusiness",
+  
   "img_url":"https://i.imgur.com/HpRspU2.png",
   "answer":"but that's none of my business"
 },
 {
-  "_id":"confessionBear",
+  
   "img_url":"https://i.imgur.com/bYlZr3J.jpg",
   "answer":"Confession Bear"
 },
 {
-  "_id":"distractedBoy",
+  
   "img_url":"https://i.imgur.com/DV6naSn.png",
   "answer":"Distracted boyfriend"
 },
 {
-  "_id":"firstWorldProb",
+  
   "img_url":"https://i.imgur.com/R893jFQ.png",
   "answer":"First world problems"
 },
 {
-  "_id":"goodGuyG",
+  
   "img_url":"https://i.imgur.com/blujKGF.jpg",
   "answer":"Good guy Greg"
 },
 {
-  "_id":"000000003432",
+  
   "img_url":"https://i.imgur.com/oyYt0dq.png",
   "answer":"Overly attached girlfriend"
 },
 {
-  "_id":"philoS",
+  
   "img_url":"https://i.imgur.com/Q8L0y97.png",
   "answer":"philosoraptor"
 },
 {
-  "_id":"notSure",
+  
   "img_url":"https://i.imgur.com/9Izk2ye.png",
   "answer":"not sure if"
 }]
