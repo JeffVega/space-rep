@@ -7,9 +7,17 @@ const userSchema = new mongoose.Schema({
     fullname: {type: String},
     username: {type: String, required:true, unique:true},
     password: {type: String, required:true},
-    question: {type: String}
+    question: [{
+        question: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Question',
+        required: true
+    },
+        prev: Number,
+        next: Number
+    }]
 });
-
+ 
 
 userSchema.set('toObject', {
 transform: function (doc, ret) {

@@ -12,7 +12,7 @@ router.get('/questions', (req, res) => {
 
   QuestionMod.find()
     .then(questions => 
-      res.json(questions.map(question => question.serialize())))
+      res.json())
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
