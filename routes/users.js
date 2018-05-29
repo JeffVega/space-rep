@@ -5,15 +5,19 @@ const passport = require('passport');
 // const { Strategy: LocalStrategy } = require('passport-local');
 
 const router = express.Router();
-
+ 
 const User = require('../models/user');
-
+const Ques = require('../models/question')
+const LinkedList = require('../linked-list/linked-list')
+//  const question  = require('../db/seed/questions.json')
 
 router.post('/users', (req, res, next) => {
 
+  
   const requiredFields = ['username', 'password'];
   const missingField = requiredFields.find(field => !(field in req.body));
-
+  // User.question.map(question => new Node(question))
+  
   if (missingField) {
     const err = new Error(`Missing '${missingField}' in request body`);
     err.status = 422;
@@ -74,18 +78,24 @@ router.post('/users', (req, res, next) => {
 
   let { username, password, fullname = '' } = req.body;
   fullname = fullname.trim();
-
+  
   return User.hashPassword(password)
     .then(digest => {
-      const newUser = {
-        fullname,
-        username,
-        password: digest
-      };
-      return User.create(newUser)
+      return Ques.find({})
+      .then(results =>{
+        console.log( results.map(result => result.id))
+        const newUser = {
+          fullname,
+          username,
+          question: results,
+          password: digest
+        };
+        return User.create(newUser)
+      })
+     
     })
     .then(result => {
-      return res.status(201).location(`/api/users/${result.id}`).json(result);
+      return res.status(201).location(`/api/users/${result.id}`).json(result) 
     })
     .catch(err => {
       if (err.code === 11000) {
