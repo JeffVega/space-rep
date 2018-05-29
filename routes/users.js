@@ -135,5 +135,16 @@ router.get('/users', passport.authenticate('jwt', {session:false}), (req, res, n
     .catch(err => next);
 });
 
+
+router.get('/question/:id', (req, res) => {
+  const id = req.params.id;
+  Ques.findById(id)
+    .exec() //done just find this item directing to .then
+    .then( question => {
+      res.json(question);
+    }) 
+    .catch(err=>next);
+})
+
 module.exports = router;
 
