@@ -48,46 +48,46 @@ class LinkedList {
         return currNode;
     }
 
-    remove(item) {
-        if (!this.head) {
-            return null;
-        }
+    // remove(item) {
+    //     if (!this.head) {
+    //         return null;
+    //     }
 
-        if (this.head.value === item) {
-            this.head = this.head.next;
-            return;
-        }
+    //     if (this.head.value === item) {
+    //         this.head = this.head.next;
+    //         return;
+    //     }
 
-        let currNode = this.head;
+    //     let currNode = this.head;
 
-        let previousNode = this.head;
+    //     let previousNode = this.head;
 
-        while ((currNode !== null) && (currNode.value !== item)) {
-            previousNode = currNode;
-            currNode = currNode.next;
-        }
-        if (currNode === null) {
-            console.log('Item not found on list');
-            return;
-        }
-        previousNode.next = currNode.next;
-    }
-    insertBefore(item, before) {
-        if (this.head === null) {
-            this.insertFirst(item)
-        } else {
-            let currNode = this.head;
-            let previousNode = this.head
-            while (currNode.value !== before) {
+    //     while ((currNode !== null) && (currNode.value !== item)) {
+    //         previousNode = currNode;
+    //         currNode = currNode.next;
+    //     }
+    //     if (currNode === null) {
+    //         console.log('Item not found on list');
+    //         return;
+    //     }
+    //     previousNode.next = currNode.next;
+    // }
+    // insertBefore(item, before) {
+    //     if (this.head === null) {
+    //         this.insertFirst(item)
+    //     } else {
+    //         let currNode = this.head;
+    //         let previousNode = this.head
+    //         while (currNode.value !== before) {
 
-                previousNode = currNode;
-                currNode = currNode.next;
-            }
-            let newItem = new _Node(item);
-            previousNode.next = newItem;
-            newItem.next = currNode;
-        }
-    }
+    //             previousNode = currNode;
+    //             currNode = currNode.next;
+    //         }
+    //         let newItem = new _Node(item);
+    //         previousNode.next = newItem;
+    //         newItem.next = currNode;
+    //     }
+    // }
     insertAfter(item, after) {
         if (!this.head) {
             return null;
