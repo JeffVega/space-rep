@@ -6,8 +6,10 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
     fullname: {type: String},
     username: {type: String, required:true, unique:true},
-    password: {type: String, required:true}
+    password: {type: String, required:true},
+    question: {type: String}
 });
+
 
 userSchema.set('toObject', {
 transform: function (doc, ret) {

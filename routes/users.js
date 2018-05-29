@@ -96,5 +96,10 @@ router.post('/users', (req, res, next) => {
     });
 });
 
+router.post('/users:id', (req, res, next) => {
+  const id = req.params.id;
+
+})
+
 module.exports = router;
 

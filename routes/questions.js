@@ -10,7 +10,8 @@ const jsonParser = bodyParser.json();
 router.get('/:id', (req, res) => {
     Question.findById(req.params.id)
       .then(question => {
-          res.sendFile('image/' + question.image);
+        //   res.sendFile('image/' + question.image);
+        res.json({greeting: 'hello'});
       })
       .catch(error => {
           console.log(error);
