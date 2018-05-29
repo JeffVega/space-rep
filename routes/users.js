@@ -124,7 +124,7 @@ router.post('/users', (req, res, next) => {
 // })
 
 
-router.get('/users/:id', (req, res, next) => {
+router.get('/users', passport.authenticate('jwt', {session:false}), (req, res, next) => {
   const userId = req.user.id;
 
   User.findById(userId)

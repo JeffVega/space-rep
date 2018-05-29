@@ -8,7 +8,7 @@ const LinkedList = require('../linked-list/linked-list')
 const router = express.Router();
 
 
-router.get('/quez',(req,res) =>{
+router.get('/question',(req,res) =>{
   QuestionMod.find({})
   .then(results =>{
     res.json(results)
@@ -18,7 +18,7 @@ router.get('/quez',(req,res) =>{
   })
 });
 
-router.post('/qes', (req, res) => {
+router.post('/question', (req, res) => {
   const {img_url,answer} = req.body;
   // const userId =req.user.id;
   const newQues = { img_url,answer};
