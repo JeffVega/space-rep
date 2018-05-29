@@ -1,19 +1,19 @@
 'use strict';
 
 const express = require('express');
-const bodyParser = require('body-parser');
-const Question = require('../models/question');
+const QuestionMod = require('../models/question');
+const User = require('../models/user')
+const Question  = require('../db/seed/questions.json')
+const LinkedList = require('../linked-list/linked-list')
 
 const router = express.Router();
-const jsonParser = bodyParser.json();
 
-router.get('/:id', (req, res) => {
-    Question.findById(req.params.id)
-      .then(question => {
-        //   res.sendFile('image/' + question.image);
-        res.json({greeting: 'hello'});
-      })
-      .catch(error => {
-          console.log(error);
-      })
-})
+router.get('/questions', (req, res) => {
+
+  QuestionMod.find()
+    .then(questions => 
+      res.json(questions.map(question => question.serialize())))
+    .catch(err => res.status(500).json({message: 'Internal server error'}));
+});
+
+module.exports = router;
