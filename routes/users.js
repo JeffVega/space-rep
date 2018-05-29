@@ -123,5 +123,17 @@ router.post('/users', (req, res, next) => {
 //   //if wrong move one 
 // })
 
+
+router.get('/users/:id', (req, res, next) => {
+  const userId = req.user.id;
+
+  User.findById(userId)
+    .populate('question')
+    .then( user => {
+      res.json(user);
+    })
+    .catch(err => next);
+});
+
 module.exports = router;
 
