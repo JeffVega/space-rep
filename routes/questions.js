@@ -48,8 +48,7 @@ router.post('/question', (req, res) => {
 
 
 router.post('/question/update', jwtAuth, (req, res) => {
-  User.findOne({username:req.user.username})
-    const result = req.body
+  const response = User.findOne({username:req.user.username})
       .then(user => {
         if (req.body.boolean === true || req.body.boolean === false) {
             user.head += 1;
@@ -62,7 +61,6 @@ router.post('/question/update', jwtAuth, (req, res) => {
       .then(user => {
           res.status(200).json(user);
       });
-  // console.log("post endpointtttttt", req.body);
 
   //inside array points at another element until null
     //update question array
