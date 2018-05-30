@@ -7,10 +7,17 @@ const userSchema = new mongoose.Schema({
     fullname: {type: String},
     username: {type: String, required:true, unique:true},
     password: {type: String, required:true},
-    question: [{type: mongoose.Schema.Types.ObjectId, ref: 'Question',required: true}],
-    prev: Number,
-    next: Number
-
+    score: {type: Number, default: 0},
+    questions: [
+        {
+            _id: mongoose.Schema.Types.ObjectId,
+            question: String,
+            answer: String,
+            memoryStrength: Number,
+            next: Number
+        }
+    ],
+    head: {type: Number, default: 0}
 });
  
 

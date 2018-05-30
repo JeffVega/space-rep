@@ -50,7 +50,7 @@ router.post('/users', (req, res, next) => {
 
   const sizedFields = {
     username: { min: 1 },
-    password: { min: 10, max: 72 }
+    password: { min: 5, max: 72 }
   };
 
   const tooSmallField = Object.keys(sizedFields).find(
@@ -106,24 +106,6 @@ router.post('/users', (req, res, next) => {
     });
 });
 
-// router.post('/users/:id', (req, res, next) => {
-//   const id = req.params.id;
-//   //get files represented in users 
-// })
-
-// router.post('/users/:id/question', (req, res) => {
-//   req.body.answer 
-//   if (req.body.answer ===  ) {
-//     //
-//   }
-//   //id of current question their on compared to question model
-//   //User.findById()
-//   //compare to see if answer is correct -> call method from linked list class
-//   //or have algorithim here, if right move it to back with ali's array (M value)
-//   //if wrong move one 
-// })
-
-
 router.get('/users', passport.authenticate('jwt', {session:false}), (req, res, next) => {
   const userId = req.user.id;
 
@@ -145,6 +127,32 @@ router.get('/question/:id', (req, res) => {
     }) 
     .catch(err=>next);
 })
+
+
+//one endpoint display questions (take out input)
+//one endpoint deal with ll with answer
+
+//if correct memory set to multiply by 2
+// else reset to 1
+
+// router.post('/users/:id', (req, res, next) => {
+//   const id = req.params.id;
+//   //get files represented in users 
+// })
+
+// router.post('/users/:id/question', (req, res) => {
+//   req.body.answer 
+//   if (req.body.answer ===  ) {
+//     //
+//   }
+//   //id of current question their on compared to question model
+//   //User.findById()
+//   //compare to see if answer is correct -> call method from linked list class
+//   //or have algorithim here, if right move it to back with ali's array (M value)
+//   //if wrong move one 
+// })
+
+
 
 module.exports = router;
 
