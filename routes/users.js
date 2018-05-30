@@ -87,7 +87,7 @@ router.post('/users', (req, res, next) => {
         const newUser = {
           fullname,
           username,
-          question: results,
+          questions: results,
           password: digest
         };
         return User.create(newUser)
@@ -118,8 +118,9 @@ router.get('/users', passport.authenticate('jwt', {session:false}), (req, res, n
 });
 
 
-router.get('/question/:id', (req, res) => {
+router.get('/question/:id', (req, res, next) => {
   const id = req.params.id;
+  console.log('aksjhdaksjhdklashjdlkahjsd', id);
   Ques.findById(id)
     .exec() //done just find this item directing to .then
     .then( question => {
@@ -127,6 +128,7 @@ router.get('/question/:id', (req, res) => {
     }) 
     .catch(err=>next);
 })
+
 
 
 //if correct memory set to multiply by 2

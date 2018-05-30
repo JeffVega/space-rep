@@ -11,10 +11,10 @@ const userSchema = new mongoose.Schema({
     questions: [
         {
             _id: mongoose.Schema.Types.ObjectId,
-            question: String,
+            questions: String,
             answer: String,
-            memoryStrength: Number,
-            next: Number
+            memoryStrength: {type: Number, default:1},
+            next: {type: Number}
         }
     ],
     head: {type: Number, default: 0}
