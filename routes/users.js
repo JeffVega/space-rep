@@ -129,9 +129,6 @@ router.get('/question/:id', (req, res) => {
 })
 
 
-//one endpoint display questions (take out input)
-//one endpoint deal with ll with answer
-
 //if correct memory set to multiply by 2
 // else reset to 1
 
