@@ -30,7 +30,7 @@ class LinkedList {
 
     find(item) {
         let currNode = this.head;
-
+        console.log(this);
         if (!this.head) {
             return null;
         }
@@ -100,7 +100,9 @@ class LinkedList {
         }
     }
 
+
     insertAt(item, position) {
+        console.log('position ###############&&&&&&&&&&&&&', this.next);
         if (this.head === null) {
             this.insertFirst(item);
         } else {

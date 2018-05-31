@@ -118,15 +118,6 @@ router.get('/users', passport.authenticate('jwt', {session:false}), (req, res, n
 });
 
 
-router.get('/question/:id', (req, res, next) => {
-  const id = req.params.id;
-  Ques.findById(id)
-    .exec() //done just find this item directing to .then
-    .then( question => {
-      res.json(question);
-    }) 
-    .catch(err=>next);
-})
 
 
 //if correct memory set to multiply by 2
