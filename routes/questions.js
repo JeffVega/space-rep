@@ -68,11 +68,12 @@ router.post('/question/update', jwtAuth, (req, res) => {
         .then(user => {
           let wrongScore = user.wrongTally;
           wrongScore++;
-
+          newList.head.value.memoryStrength = 1 
           res.send(`Incorrect. The name is ${answer.answer}`)
         })
 
       }
+      return user.save();
     })
     // User.findOne({username:req.user.username})
     //   .then(user => {
