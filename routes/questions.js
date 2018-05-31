@@ -66,11 +66,12 @@ router.post('/question/update', jwtAuth, (req, res) => {
   User.findOne({username:req.user.username})
   .then(user => {
         
-        const newList = new LinkedList()
-       user.questions.map(question => newList.insertLast(question) )
-       const correctAnswer = newList.head.value.answer
-       const {input} = req.body
-       let  userScore = user.score
+      const newList = new LinkedList()
+      user.questions.map(question => newList.insertLast(question) )
+      const correctAnswer = newList.head.value.answer
+      const {input} = req.body
+      let userScore = user.score
+      let wrongScore = user.wrongTally
        
       let MemryStrength = newList.head.value.memoryStrength
       let currNode = newList
@@ -99,7 +100,7 @@ router.post('/question/update', jwtAuth, (req, res) => {
           // newList.next.next = newList.head;
           // user.questions[currentQuestion].next = tempNext; 
           // newList.insertAt(newList.head,memoryStrength)
-          userScore--
+          wrongScore++
           MemryStrength = 1
           // console.log('MemryStrength after', MemryStrength);
           
