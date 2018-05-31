@@ -54,14 +54,24 @@ router.post('/question/update', jwtAuth, (req, res) => {
       if(answer.answer === input.answer) {
         User.findOne({username:req.user.username})
         .then(user => {
-          let  userScore = user.score 
+          const newLIst = new LinkedList()
+          user.questions.map(question => newList.insertLast(question))
+          const correctAnswer = newList.head.value.answer
+          let userScore = user.score; 
           userScore++;
           user.questions.memoryStrength *= 2;
           res.send('Correct!')
         })
       } 
       else {
-        res.send(`Incorrect. The name is ${answer}`)
+        User.findOne({username:req.user.username})
+        .then(user => {
+          let wrongScore = user.wrongTally;
+          wrongScore++;
+
+          res.send(`Incorrect. The name is ${answer.answer}`)
+        })
+
       }
     })
     // User.findOne({username:req.user.username})
