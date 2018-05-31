@@ -9,8 +9,12 @@ const router = express.Router();
 
 const jwtAuth = passport.authenticate('jwt', {session:false});
 
-function convertArrayToList(arr){
-  const questionNewList = new LinkedList()
+function convertArrayQuestions(arr) {
+  const linkedListQuestions = new LinkedList();
+  arr.forEach(item => {
+    linkedListQuestions.insertFirst(item);
+  });
+  return linkedListQuestions;
 }
 
 function convertListToArray(list) {
@@ -65,37 +69,45 @@ router.post('/question/update', jwtAuth, (req, res) => {
   console.log(input);
   User.findOne({username:req.user.username})
   .then(user => {
+  console.log('​user', user);
+ 
         
       const newList = new LinkedList()
       user.questions.map(question => newList.insertLast(question) )
+      
+      console.log('the newList​',newList );
       const correctAnswer = newList.head.value.answer
+      console.log('​correctAnswer',typeof(correctAnswer));
+      console.log('​user', user);
       const {input} = req.body
       let userScore = user.score
       let wrongScore = user.wrongTally
        
       let MemryStrength = newList.head.value.memoryStrength
       let currNode = newList
-      console.log('currNode', currNode);
+      // console.log('currNode', currNode);
       // console.log('correct answer', JSON.stringify(correctAnswer,null,2));
         
         // console.log("user",JSON.stringify(newList.head.next,null,2))
-    
+     console.log("the :",input)
         if (correctAnswer === input) {
+            console.log('​correctAnswer2', correctAnswer);
             userScore++
             MemryStrength *= 2
-            newList.insertLast(currNode)
+            // newList.insertLast(currNode)
             // console.log('next', next,null,2);
             
-            console.log('newList.head',newList);
+            // console.log('newList.head',newList);
             // newList.head.value.memoryStrength = newList.head.value.memoryStrength * 2
         }
         else{
-          console.log('MemryStrength before', MemryStrength);
+          // console.log('MemryStrength before', MemryStrength);
+         
           const next = newList.head.next; 
           // console.log('newList.next', newList.head.next);
     
           
-          console.log('next', next);
+          // console.log('next', next);
           // const tempNext = newList.next.next
           // newList.next.next = newList.head;
           // user.questions[currentQuestion].next = tempNext; 
@@ -105,19 +117,22 @@ router.post('/question/update', jwtAuth, (req, res) => {
           // console.log('MemryStrength after', MemryStrength);
           
         }
-        console.log('MemryStrength', MemryStrength);
-        console.log("score!!",userScore)
+        // console.log('MemryStrength', MemryStrength);
         
-        newList.head.value.memoryStrength = MemryStrength
-      user.score = userScore
-      
+        
+        // newList.head.value.memoryStrength = MemryStrength
+        user.wrongTally = wrongScore
+        console.log('​wrongScore', wrongScore);
+        user.score = userScore
+        console.log("score!!",userScore)
 //  Convert the newList back into an Array 
     
        convertListToArray(newList)
+       
       return user.save();
     })
     .then(user => {
-    console.log('user', user);
+    // console.log('user', user);
       
         res.status(200).json(user);
     });
