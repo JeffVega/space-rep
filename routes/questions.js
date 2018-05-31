@@ -9,6 +9,21 @@ const router = express.Router();
 
 const jwtAuth = passport.authenticate('jwt', {session:false});
 
+function convertArrayToList(arr){
+  const questionNewList = new LinkedList()
+}
+
+function convertListToArray(list) {
+  const arr = [];
+  let currentNode = list.head;
+  while (currentNode.next !== null) {
+    arr.push(currentNode.value);
+    currentNode = currentNode.next;
+  }
+  arr.push(currentNode.value);
+  return arr;
+}
+
 router.get('/question',(req,res) =>{
   QuestionMod.find({})
   .then(results =>{
@@ -48,33 +63,90 @@ router.post('/question', (req, res) => {
 router.post('/question/update', jwtAuth, (req, res) => {
   const { input } = req.body;
   console.log(input);
-  
-  QuestionMod.findOne({img_url:input.question})
-    .then(answer => {
-      if(answer.answer === input.answer) {
-        User.findOne({username:req.user.username})
-        .then(user => {
-          const newLIst = new LinkedList()
-          user.questions.map(question => newList.insertLast(question))
-          const correctAnswer = newList.head.value.answer
-          let userScore = user.score; 
-          userScore++;
-          user.questions.memoryStrength *= 2;
-          res.send('Correct!')
-        })
-      } 
-      else {
-        User.findOne({username:req.user.username})
-        .then(user => {
-          let wrongScore = user.wrongTally;
-          wrongScore++;
-          newList.head.value.memoryStrength = 1 
-          res.send(`Incorrect. The name is ${answer.answer}`)
-        })
-
-      }
+  User.findOne({username:req.user.username})
+  .then(user => {
+        
+        const newList = new LinkedList()
+       user.questions.map(question => newList.insertLast(question) )
+       const correctAnswer = newList.head.value.answer
+       const {input} = req.body
+       let  userScore = user.score
+       
+      let MemryStrength = newList.head.value.memoryStrength
+      let currNode = newList
+      console.log('currNode', currNode);
+      // console.log('correct answer', JSON.stringify(correctAnswer,null,2));
+        
+        // console.log("user",JSON.stringify(newList.head.next,null,2))
+    
+        if (correctAnswer === input) {
+            userScore++
+            MemryStrength *= 2
+            newList.insertLast(currNode)
+            // console.log('next', next,null,2);
+            
+            console.log('newList.head',newList);
+            // newList.head.value.memoryStrength = newList.head.value.memoryStrength * 2
+        }
+        else{
+          console.log('MemryStrength before', MemryStrength);
+          const next = newList.head.next; 
+          // console.log('newList.next', newList.head.next);
+    
+          
+          console.log('next', next);
+          // const tempNext = newList.next.next
+          // newList.next.next = newList.head;
+          // user.questions[currentQuestion].next = tempNext; 
+          // newList.insertAt(newList.head,memoryStrength)
+          userScore--
+          MemryStrength = 1
+          // console.log('MemryStrength after', MemryStrength);
+          
+        }
+        console.log('MemryStrength', MemryStrength);
+        console.log("score!!",userScore)
+        
+        newList.head.value.memoryStrength = MemryStrength
+      user.score = userScore
+      
+//  Convert the newList back into an Array 
+    
+       convertListToArray(newList)
       return user.save();
     })
+    .then(user => {
+    console.log('user', user);
+      
+        res.status(200).json(user);
+    });
+})
+
+// router.post('/question/update', jwtAuth, (req, res) => {
+//   const { input } = req.body;
+//   console.log(input);
+  
+//   QuestionMod.findOne({img_url:input.question})
+//     .then(answer => {
+//       if(answer.answer === input.answer) {
+//         User.findOne({username:req.user.username})
+//         .then(user => {
+//           let userScore = user.score; 
+//           userScore++;
+//           user.questions.memoryStrength *= 2;
+//           res.send('Correct!')
+//         })
+//       } 
+//       else {
+//         User.findOne({username:req.user.username})
+//         .then(user => {
+//           let wrongScore = user.wrongTally;
+//           wrongScore++;
+//           res.send(`Incorrect. The name is ${answer.answer}`)
+//         })
+
+//       }
+//     })
     // User.findOne({username:req.user.username})
     //   .then(user => {
     //     const currentQuestion = user.questions[head]
@@ -98,7 +170,7 @@ router.post('/question/update', jwtAuth, (req, res) => {
     //     }
     //   })
         // return user.save();
-})
+// })
 
 
 module.exports = router;

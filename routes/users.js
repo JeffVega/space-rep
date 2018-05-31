@@ -129,7 +129,6 @@ router.get('/question/:id', (req, res, next) => {
 })
 
 
-
 //if correct memory set to multiply by 2
 // else reset to 1
 
