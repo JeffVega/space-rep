@@ -45,30 +45,49 @@ router.post('/question', (req, res) => {
 
 });
 
-
-
 router.post('/question/update', jwtAuth, (req, res) => {
-  const response = User.findOne({username:req.user.username})
-      .then(user => {
-        if (req.body.boolean === true || req.body.boolean === false) {
-            user.head += 1;
-        }
-        if (user.head > user.questions.length - 1) {
-            user.head = 0;
-        }
-        return user.save();
-      })
-      .then(user => {
-          res.status(200).json(user);
-      });
+  const { input } = req.body;
+  console.log(input);
+  
+  QuestionMod.findOne({img_url:input.question})
+    .then(answer => {
+      if(answer.answer === input.answer) {
+        User.findOne({username:req.user.username})
+        .then(user => {
+          let  userScore = user.score 
+          userScore++;
+          user.questions.memoryStrength *= 2;
+          res.send('Correct!')
+        })
+      } 
+      else {
+        res.send(`Incorrect. The name is ${answer}`)
+      }
+    })
+    // User.findOne({username:req.user.username})
+    //   .then(user => {
+    //     const currentQuestion = user.questions[head]
+    //     //get current question head value & compare answer to input
+    //     if(response.input !== currentQuestion.answer) {
+    //       const next = currentQuestion.next; 
 
-  //inside array points at another element until null
-    //update question array
-    //send back next question
-    //change next value to point to index(next)
-    //get info client to server(postman)
-    //
+    //         user.head = next;
+    //         const tempNext = user.questions[next].next;
+    //         user.questions[next].next = currentQuestion;
+    //         user.questions[currentQuestion].next = tempNext; 
+    //     } else {
+    //       //moved a couple spots back depending on memeoryStrength
+    //       //multiply right memoryStrength x 2
+    //       //change next value of question that is certain spots away  
+    //       //currentQuestion.memoryStrength * 2
+    //       //traverse array to know where to insert
+    //       //start at head, head.next = 1 traversal, head.next.next = 2 etc. 
+    //       //once it's moved 4 nexts, will move question there
 
+    //     }
+    //   })
+        // return user.save();
 })
+
 
 module.exports = router;

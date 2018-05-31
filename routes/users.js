@@ -83,7 +83,7 @@ router.post('/users', (req, res, next) => {
     .then(digest => {
       return Ques.find({})
       .then(results =>{
-        console.log( results.map(result => result.id))
+        // console.log( results.map(result => result.id))
         const newUser = {
           fullname,
           username,
@@ -120,7 +120,6 @@ router.get('/users', passport.authenticate('jwt', {session:false}), (req, res, n
 
 router.get('/question/:id', (req, res, next) => {
   const id = req.params.id;
-  console.log('aksjhdaksjhdklashjdlkahjsd', id);
   Ques.findById(id)
     .exec() //done just find this item directing to .then
     .then( question => {

@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     username: {type: String, required:true, unique:true},
     password: {type: String, required:true},
     score: {type: Number, default: 0},
+    wrongTally: {type: Number, default: 0},
     questions: [
         {
             _id: mongoose.Schema.Types.ObjectId,
