@@ -34,10 +34,18 @@ describe('WHAT DO YOU MEME API - Questions', function () {
         return mongoose.disconnect();
     });
 
-    describe('/api/questions', function () {
+    describe('/api/question', function () {
         describe('GET', function () {
-            it('should return the question', function() {
-                
+            it('should return a question', function() {
+                const user = User.findOne({user:user.username})
+                return chai.request(app)
+                .get('/api/question')
+                .set('Authorization', `Bearer ${token}`)
+                .then(res => {
+                    expect(res).to.be.json;
+                    expect(res.body).to.be.a('object');
+                    expect(res).to.havbe.status(200);
+                })
             })
         })        
     })

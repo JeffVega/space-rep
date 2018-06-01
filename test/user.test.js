@@ -63,7 +63,7 @@ describe('WHAT DO YOU MEME API - Users', function () {
                 });
             });
     
-            it('Should reject users with non-trimmed password', function () {
+            it('should reject users with non-trimmed password', function () {
                 return chai
                   .request(app)
                   .post('/api/users')
