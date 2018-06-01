@@ -37,4 +37,34 @@ describe('Lookmark API - Users', function () {
         return mongoose.disconnect();
     });
 
+    describe('/api/users', function () {
+        describe('POST', function () {
+            it('should reject users with a missing username', function () {
+                const user = { password };
+                return chai.request(app)
+                .post('/api/users')
+                .send(user)
+                .catch(err => err.response)
+                .then(res => {
+                    expect(res).to.have.status(422);
+                    expect(res.body.message).to.equal('Missing username in request body');
+                });
+            });
+    
+            it('should reject users with a missing password', function() {
+                const user = { username, fullname };
+                return chai.request(app)
+                .post('/api/users')
+                .send(user)
+                .catch(err => err.response)
+                .then(res => {
+                    expect(res).to.have.status(422);
+                    expect(res.body.message).to.equal('Missing password in request body');
+                });
+            });
+    
+            
+        })
+    });
+
 })
