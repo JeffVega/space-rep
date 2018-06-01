@@ -133,6 +133,31 @@ class LinkedList {
         console.log('Last Item:', currNode.value);
         return currNode.value;
     }
+     remove(item){ 
+        //if the list is empty
+        if (!this.head){
+            return null;
+        }
+        //if the node to be removed is head, make the next node head
+        if(this.head === item){
+            this.head = this.head.next;
+            return;
+        }
+        //start at the head
+        let currNode = this.head;
+        //keep track of previous
+        let previousNode = this.head;
+        while ((currNode !== null) && (currNode.value !== item)) {
+            //save the previous node 
+            previousNode = currNode;
+            currNode = currNode.next;
+        }
+        if(currNode === null){
+            console.log('Item not found');
+            return;
+        }
+        previousNode.next = currNode.next;
+    }
 }
 function size(item) {
 
@@ -153,4 +178,21 @@ function size(item) {
     return num;
 }
 
-module.exports = {LinkedList,size}
+function displayFirstQuestion(list) {
+
+    return list.head
+  }
+  
+
+  
+  function displayAndRemove(list) {
+    displayFirstQuestion(list);
+  
+    const firstQues = list.head
+    console.log('​displayAndRemove -> firstQues', firstQues);
+
+    list.remove(firstQues);
+    console.log('​displayAndRemove -> list.remove(firstQues);', list);
+    return list;
+  }
+module.exports = {LinkedList,size,displayFirstQuestion,displayAndRemove}
