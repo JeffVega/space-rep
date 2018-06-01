@@ -15,7 +15,7 @@ process.env.NODE_ENV = 'test';
 
 process.stdout.write('\x1Bc\n');
 
-describe('Lookmark API - Users', function () {
+describe('WHAT DO YOU MEME API - Users', function () {
     const fullname = 'Example User';
     const username = 'example';
     const password = 'password123';
@@ -39,7 +39,7 @@ describe('Lookmark API - Users', function () {
 
     describe('/api/users', function () {
         describe('POST', function () {
-            it('should reject users with a missing username', function () {
+            it.only('should reject users with a missing username', function () {
                 const user = { password };
                 return chai.request(app)
                 .post('/api/users')
@@ -63,7 +63,17 @@ describe('Lookmark API - Users', function () {
                 });
             });
     
-            
+            it('Should reject users with non-trimmed password', function () {
+                return chai
+                  .request(app)
+                  .post('/api/users')
+                  .send({ username, password: ` ${password}`, fullname })
+                  .catch(err => err.response)
+                  .then(res => {
+                    expect(res).to.have.status(422);
+                    expect(res.body.message).to.equal('Field: \'password\' cannot start or end with whitespace');
+                  });
+              });
         })
     });
 
