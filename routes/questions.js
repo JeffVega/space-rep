@@ -3,7 +3,7 @@
 const express = require('express');
 const QuestionMod = require('../models/question');
 const User = require('../models/user')
-const {LinkedList,size} = require('../linked-list/linked-list')
+const {LinkedList,size,displayAndRemove,displayFirstQuestion} = require('../linked-list/linked-list')
 const passport = require('passport');
 const router = express.Router();
 
@@ -41,7 +41,7 @@ router.get('/question',(req,res) =>{
 
 router.get('/question/:id', (req, res, next) => {
   const id = req.params.id;
-  QuestionMod.findById(id)
+  User.findOne({username:req.user.username.questions})
     .exec() //done just find this item directing to .then
     .then( question => {
       res.json(question);
@@ -106,6 +106,9 @@ router.post('/question/update', jwtAuth, (req, res) => {
             userScore++
             mainLinkedList.head.value.memoryStrength *= 2
             mainLinkedList.insertLast(currNode)
+            displayAndRemove(currNode)
+            // // console.log('​mainLinkedList.insertLast(currNode)', mainLinkedList.insertLast(currNode));
+            
             if(sizeList <= mainLinkedList.head.value.memoryStrength){
               mainLinkedList.head.value.memoryStrength =  sizeList
               const mainLinkedListM = mainLinkedList.head.value
@@ -114,6 +117,7 @@ router.post('/question/update', jwtAuth, (req, res) => {
             else{
               const mainLinkedListM = mainLinkedList.head.value
               mainLinkedList.insertLast(mainLinkedListM,mainLinkedList.head.value.memoryStrength)
+              
             }
           
         }
@@ -122,6 +126,7 @@ router.post('/question/update', jwtAuth, (req, res) => {
            mainLinkedList.head.value.memoryStrength = 1
           const MSM = mainLinkedList.head.value
           mainLinkedList.insertAt(MSM,mainLinkedList.head.value.memoryStrength + 1 )
+          displayAndRemove(currNode)
           // console.log('mainLinkedList.next', mainLinkedList.head.next);
           
           
@@ -133,8 +138,12 @@ router.post('/question/update', jwtAuth, (req, res) => {
          
           
         }
+        // displayAndRemove(mainLinkedList)
+        // // //console.log('​displayAndRemove(mainLinkedList)', displayAndRemove(mainLinkedList));
+        // displayFirstQuestion(mainLinkedList)
         
-        
+        // // console.log('​our linked list before array',mainLinkedList);
+        // // console.log('​displayFirstQuestion(mainLinkedList)', displayFirstQuestion(mainLinkedList));
         // mainLinkedList.head.value.memoryStrength = MemryStrength
         user.wrongTally = wrongScore
         console.log('wrongScore', wrongScore);
@@ -143,6 +152,7 @@ router.post('/question/update', jwtAuth, (req, res) => {
 //  Convert the mainLinkedList back into an Array 
     
      user.questions =  convertListToArray(mainLinkedList)
+     
        
       return User.updateOne({username:req.user.username},{
         $set:{
@@ -152,13 +162,13 @@ router.post('/question/update', jwtAuth, (req, res) => {
         }
       })
         .then(()=> {
-          return mainLinkedList
+          return User.findOne({username:req.user.username});
         } );
     })
-    .then(mainLinkedList => {
-      console.log('after user--------', mainLinkedList);
+    .then(user => {
+      console.log('after user--------', user);
       
-        // res.status(200).json(user);
+        res.status(200).json(user);
     });
 })
 
