@@ -62,7 +62,6 @@ class LinkedList {
 
 
     insertAt(item, position) {
-        console.log('position ###############&&&&&&&&&&&&&', this.next);
         if (this.head === null) {
             this.insertFirst(item);
         } else {

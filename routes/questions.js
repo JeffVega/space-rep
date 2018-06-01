@@ -10,14 +10,6 @@ const router = express.Router();
 const jwtAuth = passport.authenticate('jwt', {session:false});
 
 
-// console.log('!!!!!!!!!!!!!!!!!!!!!!!', mainLinkedList);
-// function convertArrayQuestions(arr) {
-//   arr.forEach(item => {
-//     mainLinkedList.insertLast(item);
-//   });
-//   return mainLinkedList;
-// }
-
 function convertListToArray(list) {
   const arr = [];
   let currentNode = list.head;
@@ -54,7 +46,6 @@ router.get('/question/:id',jwtAuth,(req, res, next) => {
 
 router.post('/question', (req, res) => {
   const {img_url,answer} = req.body;
-  // const userId =req.user.id;
   const newQues = { img_url,answer};
 
   /***** Never trust users - validate input *****/
@@ -83,10 +74,10 @@ router.post('/question', (req, res) => {
 
 router.post('/question/update', jwtAuth, (req, res) => {
   const { input } = req.body;
-  console.log(input);
+
   User.findOne({username:req.user.username})
   .then(user => {
-  console.log('before user---------', user);
+
  
       let mainLinkedList = new LinkedList();
       // user.questions
@@ -103,9 +94,6 @@ router.post('/question/update', jwtAuth, (req, res) => {
        
       let memoryStrength = mainLinkedList.head.value.memoryStrength
       let currNode = mainLinkedList
-      // console.log('currNode', currNode);
-
-    //  console.log("the :",input)
         if (correctAnswer === input) {
             console.log('correctAnswer2', correctAnswer);
             userScore++
