@@ -14,8 +14,9 @@ const userSchema = new mongoose.Schema({
             _id: mongoose.Schema.Types.ObjectId,
             questions: String,
             answer: String,
+            img_url:String,
             memoryStrength: {type: Number, default:1},
-            next: {type: Number}
+            next: {type: String}
         }
     ],
     head: {type: Number, default: 0}

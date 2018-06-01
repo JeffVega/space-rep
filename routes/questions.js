@@ -30,6 +30,7 @@ function convertListToArray(list) {
 }
 
 router.get('/question',(req,res) =>{
+
   QuestionMod.find({})
   .then(results =>{
     res.json(results)
@@ -39,12 +40,13 @@ router.get('/question',(req,res) =>{
   })
 });
 
-router.get('/question/:id', (req, res, next) => {
-  const id = req.params.id;
-  User.findOne({username:req.user.username.questions})
-    .exec() //done just find this item directing to .then
-    .then( question => {
-      res.json(question);
+router.get('/question/:id',jwtAuth,(req, res, next) => {
+  console.log(req.user)
+
+  User.findById(req.user.id)
+  .then(user =>{
+    console.log('this is here',results)
+      res.json(user.questions);
     }) 
     .catch(err=>next);
 })
@@ -84,11 +86,14 @@ router.post('/question/update', jwtAuth, (req, res) => {
   console.log(input);
   User.findOne({username:req.user.username})
   .then(user => {
-  console.log('before user---------', user.head);
+  console.log('before user---------', user);
  
       let mainLinkedList = new LinkedList();
+      // user.questions
+      console.log('​user.questions', user.questions);
       user.questions.map(question => mainLinkedList.insertLast(question) )
       console.log("the size is :",size(mainLinkedList))
+      //debug here first
       console.log('the mainLinkedList', mainLinkedList );
       const correctAnswer = mainLinkedList.head.value.answer
       const sizeList = size(mainLinkedList)
@@ -150,8 +155,11 @@ router.post('/question/update', jwtAuth, (req, res) => {
         user.score = userScore
         console.log("score!!",userScore)
 //  Convert the mainLinkedList back into an Array 
-    
-     user.questions =  convertListToArray(mainLinkedList)
+          // user.questions.question = question.img_url
+          // console.log('​user.questions.question', user.questions.question);
+        
+          // user.questions.answer = question.answer
+          user.questions =  convertListToArray(mainLinkedList)
      
        
       return User.updateOne({username:req.user.username},{
