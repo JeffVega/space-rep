@@ -10,7 +10,7 @@ const router = express.Router();
 const jwtAuth = passport.authenticate('jwt', {session:false});
 
 let mainLinkedList = new LinkedList();
-
+console.log('!!!!!!!!!!!!!!!!!!!!!!!', mainLinkedList);
 function convertArrayQuestions(arr) {
   arr.forEach(item => {
     mainLinkedList.insertLast(item);
@@ -87,7 +87,6 @@ router.post('/question/update', jwtAuth, (req, res) => {
   console.log('​before user---------', user.head);
  
         
-      mainLinkedList
       user.questions.map(question => mainLinkedList.insertLast(question) )
       
       console.log('the mainLinkedList​', mainLinkedList );
