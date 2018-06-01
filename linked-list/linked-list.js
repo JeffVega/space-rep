@@ -48,46 +48,6 @@ class LinkedList {
         return currNode;
     }
 
-    // remove(item) {
-    //     if (!this.head) {
-    //         return null;
-    //     }
-
-    //     if (this.head.value === item) {
-    //         this.head = this.head.next;
-    //         return;
-    //     }
-
-    //     let currNode = this.head;
-
-    //     let previousNode = this.head;
-
-    //     while ((currNode !== null) && (currNode.value !== item)) {
-    //         previousNode = currNode;
-    //         currNode = currNode.next;
-    //     }
-    //     if (currNode === null) {
-    //         console.log('Item not found on list');
-    //         return;
-    //     }
-    //     previousNode.next = currNode.next;
-    // }
-    // insertBefore(item, before) {
-    //     if (this.head === null) {
-    //         this.insertFirst(item)
-    //     } else {
-    //         let currNode = this.head;
-    //         let previousNode = this.head
-    //         while (currNode.value !== before) {
-
-    //             previousNode = currNode;
-    //             currNode = currNode.next;
-    //         }
-    //         let newItem = new _Node(item);
-    //         previousNode.next = newItem;
-    //         newItem.next = currNode;
-    //     }
-    // }
     insertAfter(item, after) {
         if (!this.head) {
             return null;
@@ -135,24 +95,7 @@ class LinkedList {
             currNode = currNode.next;
         }
     }
-     size(item) {
 
-        let num = 0;
-        if (item.head) {
-            num = 1;
-        } else {
-            console.log('The item is empty');
-        }
-
-        let currNode = item.head;
-
-        while (currNode.next !== null) {
-            num++;
-            currNode = currNode.next;
-        }
-        console.log('The size IS:', num);
-        return num;
-    }
     isEmpty(item) {
         if (!item.head) {
             console.log('This item is empty');
@@ -192,5 +135,23 @@ class LinkedList {
         return currNode.value;
     }
 }
+function size(item) {
 
-module.exports = LinkedList;
+    let num = 0;
+    if (item.head) {
+        num = 1;
+    } else {
+        console.log('The item is empty');
+    }
+
+    let currNode = item.head;
+
+    while (currNode.next !== null) {
+        num++;
+        currNode = currNode.next;
+    }
+    console.log('The size IS:', num);
+    return num;
+}
+
+module.exports = {LinkedList,size}

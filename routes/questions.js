@@ -3,29 +3,20 @@
 const express = require('express');
 const QuestionMod = require('../models/question');
 const User = require('../models/user')
-const LinkedList = require('../linked-list/linked-list')
+const {LinkedList,size} = require('../linked-list/linked-list')
 const passport = require('passport');
 const router = express.Router();
 
 const jwtAuth = passport.authenticate('jwt', {session:false});
 
-<<<<<<< HEAD
-let mainLinkedList = new LinkedList();
-console.log('!!!!!!!!!!!!!!!!!!!!!!!', mainLinkedList);
-function convertArrayQuestions(arr) {
-  arr.forEach(item => {
-    mainLinkedList.insertLast(item);
-  });
-  return mainLinkedList;
-=======
-function convertArrayQuestions(arr) {
-  const linkedListQuestions = new LinkedList();
-  arr.forEach(item => {
-    linkedListQuestions.insertFirst(item);
-  });
-  return linkedListQuestions;
->>>>>>> c820430f5061a05ebcd29ea57044555a8f8ef8ca
-}
+
+// console.log('!!!!!!!!!!!!!!!!!!!!!!!', mainLinkedList);
+// function convertArrayQuestions(arr) {
+//   arr.forEach(item => {
+//     mainLinkedList.insertLast(item);
+//   });
+//   return mainLinkedList;
+// }
 
 function convertListToArray(list) {
   const arr = [];
@@ -93,133 +84,79 @@ router.post('/question/update', jwtAuth, (req, res) => {
   console.log(input);
   User.findOne({username:req.user.username})
   .then(user => {
-<<<<<<< HEAD
-  console.log('​before user---------', user.head);
+  console.log('before user---------', user.head);
  
-        
+      let mainLinkedList = new LinkedList();
       user.questions.map(question => mainLinkedList.insertLast(question) )
-      
-      console.log('the mainLinkedList​', mainLinkedList );
+      console.log("the size is :",size(mainLinkedList))
+      console.log('the mainLinkedList', mainLinkedList );
       const correctAnswer = mainLinkedList.head.value.answer
-      user.head = user.questions[0].next
-      const nextOne = user.questions[0].next
-      console.log('after resetting head*********', user.questions[nextOne].answer)
-      // console.log('​correctAnswer',correctAnswer);
-      // console.log('​user', user);
-=======
-  console.log('​user', user);
- 
-        
-      const newList = new LinkedList()
-      user.questions.map(question => newList.insertLast(question) )
-      
-      console.log('the newList​',newList );
-      const correctAnswer = newList.head.value.answer
-      console.log('​correctAnswer',typeof(correctAnswer));
-      console.log('​user', user);
->>>>>>> c820430f5061a05ebcd29ea57044555a8f8ef8ca
+      const sizeList = size(mainLinkedList)
       const {input} = req.body
       let userScore = user.score
       let wrongScore = user.wrongTally
        
-<<<<<<< HEAD
-      let MemryStrength = mainLinkedList.head.value.memoryStrength
+      let memoryStrength = mainLinkedList.head.value.memoryStrength
       let currNode = mainLinkedList
       // console.log('currNode', currNode);
 
     //  console.log("the :",input)
-=======
-      let MemryStrength = newList.head.value.memoryStrength
-      let currNode = newList
-      // console.log('currNode', currNode);
-      // console.log('correct answer', JSON.stringify(correctAnswer,null,2));
-        
-        // console.log("user",JSON.stringify(newList.head.next,null,2))
-     console.log("the :",input)
->>>>>>> c820430f5061a05ebcd29ea57044555a8f8ef8ca
         if (correctAnswer === input) {
-            console.log('​correctAnswer2', correctAnswer);
+            console.log('correctAnswer2', correctAnswer);
             userScore++
-            MemryStrength *= 2
-<<<<<<< HEAD
+            mainLinkedList.head.value.memoryStrength *= 2
             mainLinkedList.insertLast(currNode)
-
-            // console.log('next', next,null,2);
-            
-            // console.log('mainLinkedList.head',mainLinkedList);
-            // mainLinkedList.head.value.memoryStrength = mainLinkedList.head.value.memoryStrength * 2
+            if(sizeList <= mainLinkedList.head.value.memoryStrength){
+              mainLinkedList.head.value.memoryStrength =  sizeList
+              const mainLinkedListM = mainLinkedList.head.value
+              mainLinkedList.insertLast(mainLinkedListM,mainLinkedList.head.value.memoryStrength)
+            }
+            else{
+              const mainLinkedListM = mainLinkedList.head.value
+              mainLinkedList.insertLast(mainLinkedListM,mainLinkedList.head.value.memoryStrength)
+            }
+          
         }
         else{
-          // console.log('MemryStrength before', MemryStrength);
-          mainLinkedList.insertAt(currNode, 2)
-          console.log('&&&&&&&&&&&&&&&&&&', mainLinkedList);
-          const next = mainLinkedList.head.next; 
+           wrongScore++
+           mainLinkedList.head.value.memoryStrength = 1
+          const MSM = mainLinkedList.head.value
+          mainLinkedList.insertAt(MSM,mainLinkedList.head.value.memoryStrength + 1 )
           // console.log('mainLinkedList.next', mainLinkedList.head.next);
           
           
           // console.log('next', next);
           // const tempNext = mainLinkedList.next.next
           // mainLinkedList.next.next = mainLinkedList.head;
-=======
-            // newList.insertLast(currNode)
-            // console.log('next', next,null,2);
-            
-            // console.log('newList.head',newList);
-            // newList.head.value.memoryStrength = newList.head.value.memoryStrength * 2
-        }
-        else{
-          // console.log('MemryStrength before', MemryStrength);
-         
-          const next = newList.head.next; 
-          // console.log('newList.next', newList.head.next);
-    
-          
-          // console.log('next', next);
-          // const tempNext = newList.next.next
-          // newList.next.next = newList.head;
->>>>>>> c820430f5061a05ebcd29ea57044555a8f8ef8ca
           // user.questions[currentQuestion].next = tempNext; 
           // mainLinkedList.insertAt(mainLinkedList.head,memoryStrength)
-          wrongScore++
-          MemryStrength = 1
+         
           
         }
-<<<<<<< HEAD
         
         
         // mainLinkedList.head.value.memoryStrength = MemryStrength
-=======
-        // console.log('MemryStrength', MemryStrength);
-        
-        
-        // newList.head.value.memoryStrength = MemryStrength
->>>>>>> c820430f5061a05ebcd29ea57044555a8f8ef8ca
         user.wrongTally = wrongScore
-        console.log('​wrongScore', wrongScore);
+        console.log('wrongScore', wrongScore);
         user.score = userScore
         console.log("score!!",userScore)
-<<<<<<< HEAD
 //  Convert the mainLinkedList back into an Array 
     
-       convertListToArray(mainLinkedList)
+     user.questions =  convertListToArray(mainLinkedList)
        
-      return user.save()
+      return User.updateOne({username:req.user.username},{
+        $set:{
+          questions:user.questions,
+          score:user.score,
+          wrongTally:user.wrongTally
+        }
+      })
         .then(()=> {
           return mainLinkedList
         } );
     })
     .then(mainLinkedList => {
       console.log('after user--------', mainLinkedList);
-=======
-//  Convert the newList back into an Array 
-    
-       convertListToArray(newList)
-       
-      return user.save();
-    })
-    .then(user => {
-    // console.log('user', user);
->>>>>>> c820430f5061a05ebcd29ea57044555a8f8ef8ca
       
         // res.status(200).json(user);
     });
