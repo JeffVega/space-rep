@@ -30,7 +30,6 @@ class LinkedList {
 
     find(item) {
         let currNode = this.head;
-        console.log(this);
         if (!this.head) {
             return null;
         }
@@ -174,7 +173,6 @@ function size(item) {
         num++;
         currNode = currNode.next;
     }
-    console.log('The size IS:', num);
     return num;
 }
 

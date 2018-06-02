@@ -83,9 +83,7 @@ router.post('/users', (req, res, next) => {
     .then(digest => {
       return Ques.find({})
       .then(results =>{
-      console.log('​results', results);
-        
-        // console.log( results.map(result => result.img_url))
+
         const newUser = {
           fullname,
           username,
