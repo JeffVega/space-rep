@@ -105,10 +105,8 @@ router.post('/question/update', jwtAuth, (req, res) => {
       let memoryStrength = mainLinkedList.head.value.memoryStrength
       let currNode = mainLinkedList
         if (correctAnswer === input) {
-            console.log('correctAnswer2', correctAnswer);
             userScore++
             memoryStrength *= 2
-            console.log('​memoryStrength before', memoryStrength);
         mainLinkedList.head.value.memoryStrength = memoryStrength
         console.log('​memoryStrength', memoryStrength);
             // mainLinkedList.insertLast(mainLinkedList.head.value)
