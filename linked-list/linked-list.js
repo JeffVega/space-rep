@@ -189,10 +189,10 @@ function displayFirstQuestion(list) {
     displayFirstQuestion(list);
   
     const firstQues = list.head
-    console.log('​displayAndRemove -> firstQues', firstQues);
+   
 
     list.remove(firstQues);
-    console.log('​displayAndRemove -> list.remove(firstQues);', list);
+    
     return list;
   }
 module.exports = {LinkedList,size,displayFirstQuestion,displayAndRemove}
