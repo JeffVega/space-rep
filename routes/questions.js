@@ -114,7 +114,7 @@ router.post('/question/update', jwtAuth, (req, res) => {
             // mainLinkedList.insertLast(mainLinkedList.head.value)
             // displayAndRemove(currNode)
             // // console.log('​mainLinkedList.insertLast(currNode)', mainLinkedList.insertLast(currNode));
-            memoryStrength
+            
             console.log('​memoryStrength!!!!!', memoryStrength);
             if(sizeList <= memoryStrength){
               memoryStrength =  sizeList
@@ -124,7 +124,7 @@ router.post('/question/update', jwtAuth, (req, res) => {
             }
             else{
               const mainLinkedListM = mainLinkedList.head.value
-              mainLinkedList.insertAt(mainLinkedListM,memoryStrength)
+              mainLinkedList.insertLast(mainLinkedListM)
               displayAndRemove(currNode)
               
             }
