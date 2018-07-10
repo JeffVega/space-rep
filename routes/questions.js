@@ -106,7 +106,7 @@ router.post('/question/update', jwtAuth, (req, res) => {
           mainLinkedList.insertAt(MSM,memoryStrength + 1 )
           displayAndRemove(currNode)
         }
-        mainLinkedList.head.value.memoryStrength = memoryStrength
+        // mainLinkedList.head.value.memoryStrength = memoryStrength
         user.wrongTally = wrongScore
         user.score = userScore
           user.questions =  convertListToArray(mainLinkedList)     
