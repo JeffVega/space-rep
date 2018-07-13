@@ -1,45 +1,77 @@
-# Thinkful Backend Template
+# What Do You Meme?
 
-A template for developing and deploying Node.js apps.
+```
+Main Endpoints: 
 
-## Getting started
+Create a new user:
+  POST: /api/users
 
-### Setting up a project
+Get a question: 
+  GET: /api/question
+ 
+Answer a question:
+  POST: /api/question
+    Requires
+      { img_url, answer } in req.body;
 
-* Move into your projects directory: `cd ~/YOUR_PROJECTS_DIRECTORY`
-* Clone this repository: `git clone https://github.com/Thinkful-Ed/backend-template YOUR_PROJECT_NAME`
-* Move into the project directory: `cd YOUR_PROJECT_NAME`
-* Install the dependencies: `npm install`
-* Create a new repo on GitHub: https://github.com/new
-    * Make sure the "Initialize this repository with a README" option is left unchecked
-* Update the remote to point to your GitHub repository: `git remote set-url origin https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME`
+Update list: 
+router.post('/question/update', jwtAuth, (req, res) => {
+  const { input } = req.body;
 
-### Working on the project
+  User.findOne({username:req.user.username})
+  .then(user => {
+      let mainLinkedList = new LinkedList();
+      user.questions.map(question => mainLinkedList.insertLast(question) )
+      const correctAnswer = mainLinkedList.head.value.answer
+      const sizeList = size(mainLinkedList)
+      const {input} = req.body
+      let userScore = user.score
+      let wrongScore = user.wrongTally
+      let memoryStrength = mainLinkedList.head.value.memoryStrength
+      let currNode = mainLinkedList
+        if (correctAnswer === input) {
+            userScore++
+            memoryStrength *= 2
+        mainLinkedList.head.value.memoryStrength = memoryStrength
+            if(sizeList <= memoryStrength){
+              memoryStrength =  sizeList
+              const mainLinkedListM = mainLinkedList.head.value
+              mainLinkedList.insertLast(mainLinkedListM)
+              displayAndRemove(currNode)
+            }
+            else{
+              const mainLinkedListM = mainLinkedList.head.value
+              mainLinkedList.insertLast(mainLinkedListM)
+              displayAndRemove(currNode)
+              
+            }
+          
+        }
+        else{
+           wrongScore++
+           memoryStrength = 1
+          const MSM = mainLinkedList.head.value
+          mainLinkedList.insertAt(MSM,memoryStrength + 1 )
+          displayAndRemove(currNode)
+        }
+        user.wrongTally = wrongScore
+        user.score = userScore
+          user.questions =  convertListToArray(mainLinkedList)     
 
-* Move into the project directory: `cd ~/YOUR_PROJECTS_DIRECTORY/YOUR_PROJECT_NAME`
-* Run the development task: `npm start`
-    * Starts a server running at http://localhost:8080
-    * Automatically restarts when any of your files change
-
-## Databases
-
-By default, the template is configured to connect to a MongoDB database using Mongoose.  It can be changed to connect to a PostgreSQL database using Knex by replacing any imports of `db-mongoose.js` with imports of `db-knex.js`, and uncommenting the Postgres `DATABASE_URL` lines in `config.js`.
-
-## Deployment
-
-Requires the [Heroku CLI client](https://devcenter.heroku.com/articles/heroku-command-line).
-
-### Setting up the project on Heroku
-
-* Move into the project directory: `cd ~/YOUR_PROJECTS_DIRECTORY/YOUR_PROJECT_NAME`
-* Create the Heroku app: `heroku create PROJECT_NAME`
-
-* If your backend connects to a database, you need to configure the database URL:
-    * For a MongoDB database: `heroku config:set DATABASE_URL=mongodb://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME`
-    * For a PostgreSQL database: `heroku config:set DATABASE_URL=postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME`
-
-* If you are creating a full-stack app, you need to configure the client origin: `heroku config:set CLIENT_ORIGIN=https://www.YOUR_DEPLOYED_CLIENT.com`
-
-### Deploying to Heroku
-
-* Push your code to Heroku: `git push heroku master`
+      return User.updateOne({username:req.user.username},{
+        $set:{
+          questions:user.questions,
+          score:user.score,
+          wrongTally:user.wrongTally
+        }
+      })
+        .then(()=> {
+          return User.findOne({username:req.user.username});
+        } );
+    })
+    .then(user => {
+        res.status(200).json(user);
+    });
+})
+         
+```
